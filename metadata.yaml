@@ -1,5 +1,5 @@
 homepage: "https://ringostat.com"
 documentation: "https://docs.ringostat.com/"
 versions:
-  - sha: 8abd1eb756fb48c085f91a0478c4bab185d46907
+  - sha: 4b869307475e7d28e49d3c681ef1d06ab2db602d
     changeNotes: Initial release.
