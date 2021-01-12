@@ -1,11 +1,3 @@
-﻿___TERMS_OF_SERVICE___
-
-By creating or modifying this file you agree to Google Tag Manager's Community
-Template Gallery Developer Terms of Service available at
-https://developers.google.com/tag-manager/gallery-tos (or such other URL as
-Google may provide), as modified from time to time.
-
-
 ___INFO___
 
 {
@@ -47,15 +39,17 @@ ___TEMPLATE_PARAMETERS___
 
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
-const createArgumentsQueue = require('createArgumentsQueue');
+const injectScript = require('injectScript');
+const callInWindow = require('callInWindow');
 
 const transportUrl = data.transportUrl;
 const projectHash = data.projectHash;
-const injectScript = require('injectScript');
 const url = transportUrl + '/v4/' + projectHash + '.js';
-injectScript(url, data.gtmOnSuccess, data.gtmOnFailure, url);
-const ringostatAnalytics = createArgumentsQueue('ringostatAnalytics', 'ringostatAnalytics.sendHit');
-ringostatAnalytics.sendHit('pageview');
+const pw = () => {
+  callInWindow('ringostatAnalytics.sendHit', 'pageview');
+  data.gtmOnSuccess();
+};
+injectScript(url, pw, data.gtmOnFailure, url);
 
 
 ___WEB_PERMISSIONS___
@@ -67,7 +61,94 @@ ___WEB_PERMISSIONS___
         "publicId": "access_globals",
         "versionId": "1"
       },
-      "param": []
+      "param": [
+        {
+          "key": "keys",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "key"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  },
+                  {
+                    "type": 1,
+                    "string": "execute"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "ringostatAnalytics"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "key"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  },
+                  {
+                    "type": 1,
+                    "string": "execute"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "ringostatAnalytics.sendHit"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     },
     "clientAnnotations": {
       "isEditedByUser": true
@@ -88,7 +169,11 @@ ___WEB_PERMISSIONS___
             "listItem": [
               {
                 "type": 1,
-                "string": "https://script.ringostat.com/v4/../[0-9a-f]{40}\\.js"
+                "string": "https://script.ringostat.com/v4/*"
+              },
+              {
+                "type": 1,
+                "string": "https://analytics.ringostat.net/collect/*"
               }
             ]
           }
@@ -111,6 +196,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 22/12/2020, 18:45:23
+Created on 30/12/2020, 13:59:46
 
 
