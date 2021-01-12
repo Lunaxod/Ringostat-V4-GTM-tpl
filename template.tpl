@@ -41,10 +41,11 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
 const injectScript = require('injectScript');
 const callInWindow = require('callInWindow');
+const encodeUri = require('encodeUri');
 
 const transportUrl = data.transportUrl;
 const projectHash = data.projectHash;
-const url = transportUrl + '/v4/' + projectHash + '.js';
+const url = encodeUri(transportUrl + '/v4/' + projectHash + '.js');
 const pw = () => {
   callInWindow('ringostatAnalytics.sendHit', 'pageview');
   data.gtmOnSuccess();
@@ -197,5 +198,3 @@ setup: ''
 ___NOTES___
 
 Created on 30/12/2020, 13:59:46
-
-
